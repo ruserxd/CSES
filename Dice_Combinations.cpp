@@ -1,28 +1,33 @@
-#include <iostream>
+#include <bits/stdc++.h>    
 using namespace std;
-#define ma 1000005
-typedef unsigned long long int ull;
-
-ull ar[ma];
-
-ull dp(int n) {
-    ar[0] = 1;
-    ull m = 1e9 + 7;
-    for (ull i = 1; i <= n; i++) {
-        for (ull j = 1; j <= 6 && j <= i; j++) {
-            ar[i] = (ar[i] + ar[i - j])%m;
+typedef unsigned long long int in;
+vector<int>a(1000005,-1);
+ 
+in dp(in n) {
+    in ma = 1e9 + 7;
+    if (n == 0) {
+        return 1; 
+    }
+    if (a[n] != -1) {
+        return a[n];
+    }
+    in ans = 0;
+    for (in i = 1 ; i <= 6; i++) {
+        if (n >= i) {
+            ans += dp(n - i) % ma;
+        } else {
+            break;
         }
     }
-
-    return ar[n];
+    a[n] = ans % ma;
+    return ans % ma;
 }
 int main() {
-    ull n , m = 1e9+7;
     cin.tie(0);
     cout.tie(0);
     ios_base::sync_with_stdio(0);
+    in n;
     cin >> n;
-    ull ans = dp(n) % m;
-    cout <<ans;
+    in ans = dp(n);
+    cout << ans ;
     return 0;
-}
